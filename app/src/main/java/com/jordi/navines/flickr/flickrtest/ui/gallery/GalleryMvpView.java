@@ -1,5 +1,6 @@
 package com.jordi.navines.flickr.flickrtest.ui.gallery;
 
+import com.jordi.navines.flickr.flickrtest.network.model.response.ImagesResponse;
 import com.jordi.navines.flickr.flickrtest.ui.base.MvpView;
 
 /**
@@ -8,7 +9,7 @@ import com.jordi.navines.flickr.flickrtest.ui.base.MvpView;
 
 public interface GalleryMvpView extends MvpView {
 
-    void loadGallerySuccessful();
+    void onLoadGallerySuccessful(ImagesResponse response);
 
-    void loadGalleryError();
+    void onLoadGalleryError();
 }

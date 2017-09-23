@@ -25,33 +25,35 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    // Library for binding views
+
+    // Picasso image loader
+
+    // Retrofit
+    
+
+    //GSON library for Json parsing
+
+    //Dagger 2 for Inejction
+
+    //unit test
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
-
-    // Library for binding views
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.jakewharton:butterknife:8.8.1'
-
-    // Picasso image loader
     compile 'com.squareup.picasso:picasso:2.5.2'
-
-    // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-//    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
-//    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
-
-    //GSON library for Json parsing
     compile 'com.google.code.gson:gson:2.3'
-
-    //Dagger 2 for Inejction
-    compile "com.google.dagger:dagger:2.11"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.11"
-    provided 'javax.annotation:jsr250-api:1.0'
-
-    //unit test
+    compile 'com.google.dagger:dagger:2.11'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    provided 'javax.annotation:jsr250-api:1.0'
 }

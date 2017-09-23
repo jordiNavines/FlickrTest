@@ -2,13 +2,14 @@ package com.jordi.navines.flickr.flickrtest.network.model.response;
 
 import com.jordi.navines.flickr.flickrtest.model.Photo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by jordi on 21/09/2017.
  */
 
-public class ImagesResponse {
+public class ImagesResponse implements Serializable {
 
     String title;
     String link;
@@ -54,5 +55,15 @@ public class ImagesResponse {
 
     public void setImages(List<Photo> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "ImagesResponse{" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", description='" + description + '\'' +
+                ", items=" + items.toString() +
+                '}';
     }
 }

@@ -1,14 +1,19 @@
 package com.jordi.navines.flickr.flickrtest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by jordi on 21/09/2017.
  */
 
-public class Photo {
+public class Photo implements Serializable, Parcelable {
 
     String title;
     String link;
-    String media;
+    Media media;
     String date_taken;
 
     String description;
@@ -16,6 +21,11 @@ public class Photo {
     String author;
     String author_id;
     String tags;
+
+
+    public Photo(String title) {
+        this.title = title;
+    }
 
 
     public String getTitle() {
@@ -34,11 +44,11 @@ public class Photo {
         this.link = link;
     }
 
-    public String getMedia() {
+    public Media getMedia() {
         return media;
     }
 
-    public void setMedia(String media) {
+    public void setMedia(Media media) {
         this.media = media;
     }
 
@@ -89,4 +99,60 @@ public class Photo {
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", media='" + media.toString() + '\'' +
+                ", date_taken='" + date_taken + '\'' +
+                ", description='" + description + '\'' +
+                ", published='" + published + '\'' +
+                ", author='" + author + '\'' +
+                ", author_id='" + author_id + '\'' +
+                ", tags='" + tags + '\'' +
+                '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(link);
+        dest.writeParcelable(media, flags);
+        dest.writeString(date_taken);
+        dest.writeString(description);
+        dest.writeString(published);
+        dest.writeString(author);
+        dest.writeString(author_id);
+        dest.writeString(tags);
+    }
+
+    public Photo(Parcel in) {
+        title = in.readString();
+        link = in.readString();
+        media = in.readParcelable(Media.class.getClassLoader());
+        date_taken = in.readString();
+        description = in.readString();
+        published = in.readString();
+        author = in.readString();
+        author_id = in.readString();
+        tags = in.readString();
+
+    }
+
+    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
+        public Photo createFromParcel(Parcel in) {
+            return new Photo(in);
+        }
+
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
 }

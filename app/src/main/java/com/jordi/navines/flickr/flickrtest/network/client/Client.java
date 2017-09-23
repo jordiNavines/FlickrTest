@@ -1,6 +1,10 @@
 package com.jordi.navines.flickr.flickrtest.network.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jordi.navines.flickr.flickrtest.constants.Constants;
+import com.jordi.navines.flickr.flickrtest.network.converter.CustomConverterFactory;
+import com.jordi.navines.flickr.flickrtest.network.converter.CustomGsonResponseConverter;
 import com.jordi.navines.flickr.flickrtest.network.services.FlickrService;
 
 import java.io.IOException;
@@ -10,6 +14,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -29,10 +34,12 @@ public class Client {
     public Client() {
         OkHttpClient.Builder httpClient = createClient();
 
+        Gson gson = new GsonBuilder() .setLenient() .create();
+
         this.services = new ConcurrentHashMap();
         this.retrofit = new Retrofit.Builder().
                 baseUrl(Constants.FLICKR_URL).
-                addConverterFactory(GsonConverterFactory.create()).
+                addConverterFactory(CustomConverterFactory.create(gson)).
                 client(httpClient.build()).
                 build();
     }
@@ -51,6 +58,12 @@ public class Client {
                 return chain.proceed(request);
             }
         });
+
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(interceptor);
+
 
         return httpClient;
     }
