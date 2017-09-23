@@ -52,7 +52,7 @@ public class ImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.item_pager_image, container, false);
 
         ImageView image = (ImageView) view.findViewById(R.id.image);
-        Picasso.with(getActivity()).load(mParam1.getMedia().getLink()).into(image);
+        Picasso.with(getActivity()).load(mParam1.getMedia().getLink()).placeholder(R.drawable.placeholder).into(image);
 
         return view;
     }
