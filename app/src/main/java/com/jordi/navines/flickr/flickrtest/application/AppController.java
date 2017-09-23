@@ -11,13 +11,21 @@ public class AppController extends Application {
 
     private static AppController mInstance;
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mInstance=this;
+    }
+
+
     public static AppController get(Context context) {
         return (AppController) context.getApplicationContext();
     }
 
 
     public static synchronized AppController getInstance() {
-
         return mInstance;
     }
 

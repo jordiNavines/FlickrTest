@@ -25,8 +25,8 @@ public class ImageActivity extends AppCompatActivity {
 
     @BindView(R.id.pager) ViewPager mViewPager;
 
-    final String ARG_POSITION = "position";
-    final String ARG_IMAGE_LIST = "imageslist";
+    public static final String ARG_POSITION = "position";
+    public static final String ARG_IMAGE_LIST = "imageslist";
 
     private ArrayList<Photo> mImages;
     private int position;

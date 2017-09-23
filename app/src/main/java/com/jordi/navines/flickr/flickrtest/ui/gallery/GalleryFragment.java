@@ -154,12 +154,12 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
 
     @Override
     public void onLoadGalleryError() {
-        
+        mListener.showSnacbBarError(getActivity().getResources().getString(R.string.error_fetch_public_feed));
     }
 
     @Override
     public void onNoInternetConnection() {
-
+        mListener.showSnacbBarError(getActivity().getResources().getString(R.string.error_no_connection));
     }
 
     /**
@@ -175,5 +175,7 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     public interface OnListFragmentInteractionListener {
 
         void onListFragmentInteraction(ArrayList<Photo> imagesList, int position);
+
+        void showSnacbBarError(String message);
     }
 }
