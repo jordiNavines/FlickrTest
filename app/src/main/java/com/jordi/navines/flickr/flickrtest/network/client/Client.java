@@ -27,7 +27,6 @@ public class Client {
     final ConcurrentHashMap<Class, Object> services;
     static Retrofit retrofit;
 
-
     /**
      * Create the rest retrofit client
      */

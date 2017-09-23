@@ -32,7 +32,7 @@ public class GalleryActivityTest {
 
 
     @Test
-    public void check() throws InterruptedException {
+    public void testUIGallery() throws InterruptedException {
         activityTestRule.launchActivity(new Intent());
 
         Thread.sleep(1000);
