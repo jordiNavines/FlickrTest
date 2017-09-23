@@ -7,11 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.jordi.navines.flickr.flickrtest.R;
+import com.jordi.navines.flickr.flickrtest.application.AppController;
+import com.jordi.navines.flickr.flickrtest.injection.components.GalleryComponent;
+import com.jordi.navines.flickr.flickrtest.injection.components.DaggerGalleryComponent;
+import com.jordi.navines.flickr.flickrtest.injection.modules.GalleryPresenterModule;
 import com.jordi.navines.flickr.flickrtest.model.Photo;
 import com.jordi.navines.flickr.flickrtest.ui.image.ImageActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GalleryActivity extends AppCompatActivity implements GalleryFragment.OnListFragmentInteractionListener {
 
@@ -21,8 +24,6 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragmen
         setContentView(R.layout.activity_gallery);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
     }
 
     @Override
@@ -34,14 +35,15 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragmen
         startActivity(intent);
     }
 
-//    private ActivityComponent mActivityComponent;
-//    public Networkmodule activityComponent() {
-//        if (mActivityComponent == null) {
-//            mActivityComponent = DaggerActivityComponent.builder()
-//                    .activityModule(new ActivityModule(this))
-//                    .applicationComponent(AppController.get(this).getComponent())
-//                    .build();
-//        }
-//        return mActivityComponent;
-//    }
+    private GalleryComponent mGalleryComponent;
+    public GalleryComponent galleryComponent() {
+
+        if (mGalleryComponent == null) {
+            mGalleryComponent =DaggerGalleryComponent.builder()
+                    //                .sayHelloPresenterModule(new SayHelloPresenterModule(this, new Person()))
+                    .galleryPresenterModule(new GalleryPresenterModule(AppController.getInstance()))
+                    .build();
+        }
+        return mGalleryComponent;
+    }
 }

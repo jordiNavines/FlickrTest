@@ -1,7 +1,6 @@
 package com.jordi.navines.flickr.flickrtest.injection.components;
 
-import com.jordi.navines.flickr.flickrtest.injection.modules.ApplicationModule;
-import com.jordi.navines.flickr.flickrtest.injection.modules.Networkmodule;
+import com.jordi.navines.flickr.flickrtest.injection.modules.GalleryPresenterModule;
 import com.jordi.navines.flickr.flickrtest.ui.gallery.GalleryFragment;
 
 import javax.inject.Singleton;
@@ -13,8 +12,8 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {ApplicationModule.class, Networkmodule.class})
-public interface ActivityComponent {
+@Component(modules = GalleryPresenterModule.class)
+public interface GalleryComponent {
 
     void inject(GalleryFragment galleryFragment);
 

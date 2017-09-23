@@ -1,5 +1,7 @@
 package com.jordi.navines.flickr.flickrtest.ui.gallery;
 
+import android.app.Application;
+
 import com.jordi.navines.flickr.flickrtest.constants.Constants;
 import com.jordi.navines.flickr.flickrtest.network.client.Client;
 import com.jordi.navines.flickr.flickrtest.network.model.response.ImagesResponse;

@@ -25,23 +25,29 @@ public class ImageActivity extends AppCompatActivity {
 
     @BindView(R.id.pager) ViewPager mViewPager;
 
+    final String ARG_POSITION = "position";
+    final String ARG_IMAGE_LIST = "imageslist";
+
+    private ArrayList<Photo> mImages;
+    private int position;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        int position = getIntent().getExtras().getInt("position");
-        ArrayList<Photo> mImages = getIntent().getExtras().getParcelableArrayList("imageslist");
+        if (getIntent() != null) {
+            position = getIntent().getExtras().getInt(ARG_POSITION);
+            mImages = getIntent().getExtras().getParcelableArrayList(ARG_IMAGE_LIST);
+        }
 
         mAdapter= new ImagePagerAdapter(getSupportFragmentManager(), this, mImages);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(position);
 
+        if (mImages.size() > position) {
+            mViewPager.setCurrentItem(position);
+        }
     }
 
     @Override

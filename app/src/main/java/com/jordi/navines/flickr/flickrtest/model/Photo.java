@@ -15,13 +15,11 @@ public class Photo implements Serializable, Parcelable {
     String link;
     Media media;
     String date_taken;
-
     String description;
     String published;
     String author;
     String author_id;
     String tags;
-
 
     public Photo(String title) {
         this.title = title;

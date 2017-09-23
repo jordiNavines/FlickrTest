@@ -1,6 +1,5 @@
 package com.jordi.navines.flickr.flickrtest.ui.gallery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jordi.navines.flickr.flickrtest.R;
-import com.jordi.navines.flickr.flickrtest.injection.components.ActivityComponent;
+import com.jordi.navines.flickr.flickrtest.adapter.GalleryAdapter;
 import com.jordi.navines.flickr.flickrtest.model.Photo;
 import com.jordi.navines.flickr.flickrtest.network.model.response.ImagesResponse;
 
@@ -35,22 +34,16 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
 
     RecyclerView recyclerView;
     GridLayoutManager mLayoutManager;
+    GalleryAdapter mAdapter;
 
     List<Photo> mImages = new ArrayList<Photo>();
 
-//    @Inject GalleryPresenter mGalleryPresenter;
-    GalleryPresenter mGalleryPresenter = new GalleryPresenter();
-    MyItemRecyclerViewAdapter mAdapter;
+    @Inject GalleryPresenter mGalleryPresenter;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public GalleryFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+
     public static GalleryFragment newInstance(int columnCount) {
         GalleryFragment fragment = new GalleryFragment();
         Bundle args = new Bundle();
@@ -62,9 +55,9 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        ((Activity) getActivity()).().inject(this);
+        ((GalleryActivity) getActivity()).galleryComponent().inject(this);
 
-        mAdapter = new MyItemRecyclerViewAdapter(getActivity(), mImages, mListener);
+        mAdapter = new GalleryAdapter(getActivity(), mImages, mListener);
     }
 
     @Override
@@ -90,12 +83,11 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
             recyclerView.setAdapter(mAdapter);
         }
 
+        // Init scroll listener
         initiScollListener();
 
         return view;
     }
-
-
 
 
     protected int visibleThreshold = 5;
@@ -154,18 +146,13 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     }
 
     @Override
-    public void onShowProgress() {
-
-    }
+    public void onShowProgress() {}
 
     @Override
-    public void onHideProgress() {
-
-    }
+    public void onHideProgress() {}
 
     @Override
     public void onLoadGallerySuccessful(ImagesResponse response) {
-        Log.d("load", "loading images");
         loading = false;
         mImages.addAll(response.getImages());
         mAdapter.notifyDataSetChanged();
@@ -187,7 +174,7 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onListFragmentInteraction(ArrayList<Photo> imagesList, int position);
     }
 }

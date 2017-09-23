@@ -18,7 +18,7 @@ public interface FlickrService {
      * Call the endpoint to get the list of images from Flickr
      */
     @Headers("Accept: application/json")
-    @GET(Constants.FLICKR_URL2)
+    @GET(Constants.FEED)
     Call<ImagesResponse> getImagesPublicFeed(@Query(Constants.FORMAT) String format);
 
 

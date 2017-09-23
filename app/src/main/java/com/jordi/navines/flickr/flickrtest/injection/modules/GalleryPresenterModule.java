@@ -14,11 +14,11 @@ import dagger.Provides;
  */
 
 @Module
-public class ApplicationModule {
+public class GalleryPresenterModule {
 
     protected final Application mApplication;
 
-    public ApplicationModule(Application application) {
+    public GalleryPresenterModule(Application application) {
         mApplication = application;
     }
 
