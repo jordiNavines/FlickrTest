@@ -26,6 +26,9 @@ public class AppController extends Application {
 
 
     public static synchronized AppController getInstance() {
+        if (mInstance == null) {
+            mInstance = new AppController();
+        }
         return mInstance;
     }
 

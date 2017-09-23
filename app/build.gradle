@@ -25,21 +25,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    compile 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     testCompile 'org.mockito:mockito-core:2.7.22'
-
-    // Library for binding views
-
-    // Picasso image loader
-
-    // Retrofit
-
-
-    //GSON library for Json parsing
-
-    //Dagger 2 for Inejction
-
-    //unit test
 
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'

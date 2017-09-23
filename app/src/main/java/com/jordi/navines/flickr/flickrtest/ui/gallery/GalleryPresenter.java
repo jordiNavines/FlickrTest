@@ -1,6 +1,8 @@
 package com.jordi.navines.flickr.flickrtest.ui.gallery;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import com.jordi.navines.flickr.flickrtest.application.AppController;
 import com.jordi.navines.flickr.flickrtest.constants.Constants;
@@ -8,6 +10,8 @@ import com.jordi.navines.flickr.flickrtest.network.client.Client;
 import com.jordi.navines.flickr.flickrtest.network.model.response.ImagesResponse;
 import com.jordi.navines.flickr.flickrtest.ui.base.BasePresenter;
 import com.jordi.navines.flickr.flickrtest.utils.Utils;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -22,14 +26,15 @@ import retrofit2.Response;
 public class GalleryPresenter implements BasePresenter<GalleryMvpView> {
 
     private GalleryMvpView mMvpView;
+    private Context mCtx;
 
     @Inject
-    public GalleryPresenter() {
-
+    public GalleryPresenter(Context ctx) {
+        mCtx = ctx;
     }
 
     public void loadImages(final boolean resfresh){
-        if (!Utils.checkInternetConnection(AppController.getInstance().getApplicationContext())){
+        if (!Utils.checkInternetConnection(mCtx)){
             // No connection
             mMvpView.onNoInternetConnection();
             return;
@@ -46,7 +51,11 @@ public class GalleryPresenter implements BasePresenter<GalleryMvpView> {
 
             @Override
             public void onFailure(Call<ImagesResponse> call, Throwable t) {
-                mMvpView.onLoadGalleryError();
+                if (t instanceof IOException) {  // Network Issue
+                    mMvpView.onNoInternetConnection();
+                } else {
+                    mMvpView.onLoadGalleryError();
+                }
             }
         });
     }
