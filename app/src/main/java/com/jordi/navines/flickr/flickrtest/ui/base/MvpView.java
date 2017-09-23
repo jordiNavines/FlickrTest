@@ -6,7 +6,5 @@ package com.jordi.navines.flickr.flickrtest.ui.base;
 
 public interface MvpView {
 
-    void onShowProgress();
-
-    void onHideProgress();
+    void onNoInternetConnection();
 }

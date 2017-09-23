@@ -146,12 +146,6 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     }
 
     @Override
-    public void onShowProgress() {}
-
-    @Override
-    public void onHideProgress() {}
-
-    @Override
     public void onLoadGallerySuccessful(ImagesResponse response) {
         loading = false;
         mImages.addAll(response.getImages());
@@ -160,6 +154,11 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
 
     @Override
     public void onLoadGalleryError() {
+        
+    }
+
+    @Override
+    public void onNoInternetConnection() {
 
     }
 
