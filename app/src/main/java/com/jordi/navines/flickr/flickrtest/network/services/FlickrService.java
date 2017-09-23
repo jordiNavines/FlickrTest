@@ -19,7 +19,7 @@ public interface FlickrService {
      */
     @Headers("Accept: application/json")
     @GET(Constants.FLICKR_URL2)
-    Call<ImagesResponse> getOrganizationConfigDetails(@Query(Constants.FORMAT) String format);
+    Call<ImagesResponse> getImagesPublicFeed(@Query(Constants.FORMAT) String format);
 
 
 }
