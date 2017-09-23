@@ -9,7 +9,7 @@ import com.jordi.navines.flickr.flickrtest.ui.base.MvpView;
 
 public interface GalleryMvpView extends MvpView {
 
-    void onLoadGallerySuccessful(ImagesResponse response);
+    void onLoadGallerySuccessful(ImagesResponse response, boolean refresh);
 
     void onLoadGalleryError();
 }

@@ -2,11 +2,12 @@ package com.jordi.navines.flickr.flickrtest.ui.gallery;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,15 @@ import com.jordi.navines.flickr.flickrtest.R;
 import com.jordi.navines.flickr.flickrtest.adapter.GalleryAdapter;
 import com.jordi.navines.flickr.flickrtest.model.Photo;
 import com.jordi.navines.flickr.flickrtest.network.model.response.ImagesResponse;
+import com.jordi.navines.flickr.flickrtest.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A fragment representing a list of Items.
@@ -27,12 +32,14 @@ import javax.inject.Inject;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class GalleryFragment extends Fragment implements GalleryMvpView {
+public class GalleryFragment extends Fragment implements GalleryMvpView, SwipeRefreshLayout.OnRefreshListener {
 
     private int mColumns = 2;
     private OnListFragmentInteractionListener mListener;
 
-    RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh_list) SwipeRefreshLayout mSwipeRefresh;
+    @BindView(R.id.list) RecyclerView mRecyclerView;
+
     GridLayoutManager mLayoutManager;
     GalleryAdapter mAdapter;
 
@@ -64,31 +71,28 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-
-        mGalleryPresenter.attachView(this);
-
-        mGalleryPresenter.loadImages();
+        ButterKnife.bind(this, view);
+        Context context = view.getContext();
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            recyclerView = (RecyclerView) view;
-
-            if (mColumns <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                mLayoutManager = new GridLayoutManager(context, mColumns);
-                recyclerView.setLayoutManager(mLayoutManager);
-            }
-            recyclerView.setAdapter(mAdapter);
+        if (mColumns <= 1) {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            mLayoutManager = new GridLayoutManager(context, mColumns);
+            mRecyclerView.setLayoutManager(mLayoutManager);
         }
+        mRecyclerView.setAdapter(mAdapter);
+        mSwipeRefresh.setOnRefreshListener(this);
+        mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+
+        mGalleryPresenter.attachView(this);
+        mGalleryPresenter.loadImages(false);
 
         // Init scroll listener
         initiScollListener();
 
         return view;
     }
-
 
     protected int visibleThreshold = 5;
     protected int firstVisibleItem, visibleItemCount, totalItemCount;
@@ -98,7 +102,7 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     public boolean loading = true;
 
     public void initiScollListener(){
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -116,7 +120,7 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
                         <= (firstVisibleItem + visibleThreshold)) {
 
                     loading = true;
-                    mGalleryPresenter.loadImages();
+                    mGalleryPresenter.loadImages(false);
                 }
 
                 if (itemAutoPlaying != mLayoutManager.findFirstCompletelyVisibleItemPosition() &&
@@ -146,20 +150,33 @@ public class GalleryFragment extends Fragment implements GalleryMvpView {
     }
 
     @Override
-    public void onLoadGallerySuccessful(ImagesResponse response) {
+    public void onLoadGallerySuccessful(ImagesResponse response, boolean refresh) {
         loading = false;
+        if (refresh) {
+            mImages.clear();
+        }
         mImages.addAll(response.getImages());
         mAdapter.notifyDataSetChanged();
+        mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        mGalleryPresenter.loadImages(true);
     }
 
     @Override
     public void onLoadGalleryError() {
+        loading = false;
         mListener.showSnacbBarError(getActivity().getResources().getString(R.string.error_fetch_public_feed));
+        mSwipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void onNoInternetConnection() {
+        loading = false;
         mListener.showSnacbBarError(getActivity().getResources().getString(R.string.error_no_connection));
+        mSwipeRefresh.setRefreshing(false);
     }
 
     /**

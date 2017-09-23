@@ -28,7 +28,7 @@ public class GalleryPresenter implements BasePresenter<GalleryMvpView> {
 
     }
 
-    public void loadImages(){
+    public void loadImages(final boolean resfresh){
         if (!Utils.checkInternetConnection(AppController.getInstance().getApplicationContext())){
             // No connection
             mMvpView.onNoInternetConnection();
@@ -40,7 +40,7 @@ public class GalleryPresenter implements BasePresenter<GalleryMvpView> {
             @Override
             public void onResponse(Call<ImagesResponse> call, Response<ImagesResponse> response) {
                 if (response.isSuccessful()) {
-                    mMvpView.onLoadGallerySuccessful(response.body());
+                    mMvpView.onLoadGallerySuccessful(response.body(), resfresh);
                 }
             }
 
@@ -50,6 +50,7 @@ public class GalleryPresenter implements BasePresenter<GalleryMvpView> {
             }
         });
     }
+
 
     @Override
     public void attachView(GalleryMvpView mvpView) {

@@ -26,6 +26,7 @@
         android:name="com.jordi.navines.flickr.flickrtest.ui.gallery.GalleryFragment"
         android:id="@+id/gallery_fragment"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>
